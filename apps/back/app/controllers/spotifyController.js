@@ -2,6 +2,7 @@ const spotifyController = (function() {
     
     const clientId = 'b319a600fd7d4cdd968a4f1bf7b9b585';
     const clientSecret = '87c3c36d09c546cbb643b440c6a56c25';
+    const redirect_uri = 'http://localhost:5000/callback';
 
    
     const getToken = async () => {
