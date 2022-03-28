@@ -11,7 +11,7 @@ Like.init({
       type: DataTypes.TEXT
     },
     track_id: {
-      type: DataTypes.NUMBER
+      type: DataTypes.INTEGER
     },
   },
     {
