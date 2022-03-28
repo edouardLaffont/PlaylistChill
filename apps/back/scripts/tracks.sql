@@ -18,6 +18,8 @@ INSERT INTO `track` VALUES (9, 'London Calling', 'The Clash', 'https://www.youtu
 
 INSERT INTO `track` VALUES (10, 'Veridis Quo', 'Daft Punk', 'https://www.youtube.com/watch?v=HhZaHf8RP6g&t=11s' );
 
-INSERT INTO `track` VALUES (10, 'Stayin Alive', 'Bee Gees', 'https://www.youtube.com/watch?v=fNFzfwLM72c&ab_channel=BeeGeesVEVO' );
+INSERT INTO `track` VALUES (11, 'Stayin Alive', 'Bee Gees', 'https://www.youtube.com/watch?v=fNFzfwLM72c&ab_channel=BeeGeesVEVO');
 
-INSERT INTO `track` VALUES (10, 'YMCA', 'Village People', 'https://www.youtube.com/watch?v=CS9OO0S5w2k&ab_channel=VillagePeople' );
+INSERT INTO `track` VALUES (12, 'YMCA', 'Village People', 'https://www.youtube.com/watch?v=CS9OO0S5w2k&ab_channel=VillagePeople');
+
+INSERT INTO `track` VALUES (13, 'Mambo No. 5', 'Lou Bega', 'https://www.youtube.com/watch?v=EK_LN3XEcnw&ab_channel=LouBegaVEVO');
