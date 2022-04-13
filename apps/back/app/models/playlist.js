@@ -1,23 +1,19 @@
-
 const connection = require('../database');
 const { Model, DataTypes } = require('sequelize');
 
-class Like extends Model {
+class Playlist extends Model {
 
 }
 
-Like.init({
-    user_name: {
+Playlist.init({
+    name: {
       type: DataTypes.TEXT
-    },
-    track_id: {
-      type: DataTypes.INTEGER
     },
   },
     {
         sequelize: connection,
-        tableName: 'like'
+        tableName: 'playlist'
         
     });
 
-module.exports = Like;
+module.exports = Playlist;

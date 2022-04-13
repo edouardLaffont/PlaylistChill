@@ -1,15 +1,14 @@
 const Track = require("../models/track");
-const { Sequelize } = require("sequelize");
 const fs = require("fs");
 
-const Lirefichier = () => {
-  let Lirefichier = fs.readFileSync("./app/PlayerUser.json");
-  return JSON.parse(Lirefichier);
+const readFile = () => {
+  let readFile = fs.readFileSync("./app/PlayerUser.json");
+  return JSON.parse(readFile);
 };
 
-const Ecritfichier = (donners) => {
-  let Ecritfichier = JSON.stringify(donners);
-  fs.writeFileSync("./app/PlayerUser.json", Ecritfichier);
+const writeFile = (donners) => {
+  let writeFile = JSON.stringify(donners);
+  fs.writeFileSync("./app/PlayerUser.json", writeFile);
 };
 function getRandomIntInclusive(min, max) {
   min = Math.ceil(min);
@@ -33,42 +32,42 @@ const getValue = (Array, value) => {
 
 const getPlayer = async (nb, query, response) => {
   try {
-    let play = Lirefichier();
-    let liste;
+    let play = readFile();
+    let list;
     if (
       getValue(Object.keys(query), "list") &&
       getValue(Object.keys(query), "user")
     ) {
-      liste = play[query.user];
+      list = play[query.user];
       dis = {};
       let numberPlay = Number(query.play);
       if (nb < 0) {
         console.log("prev");
-        dis.Play = liste[numberPlay - 1];
-        dis.table = liste.length - 1;
-        dis.id = liste.indexOf(dis.Play);
+        dis.Play = list[numberPlay - 1];
+        dis.table = list.length - 1;
+        dis.id = list.indexOf(dis.Play);
         response.status(200).json(dis);
       } else if (nb > 0) {
-        console.log("next", liste.length);
+        console.log("next", list.length);
         numPlayPlus = numberPlay + 1;
-        if (numPlayPlus < liste.length) {
-          console.log("next", liste.length);
-          dis.Play = liste[numPlayPlus];
-          dis.table = liste.length;
-          dis.id = liste.indexOf(dis.Play);
+        if (numPlayPlus < list.length) {
+          console.log("next", list.length);
+          dis.Play = list[numPlayPlus];
+          dis.table = list.length;
+          dis.id = list.indexOf(dis.Play);
           response.status(200).json(dis);
         }
-        if (numPlayPlus > liste.length) {
+        if (numPlayPlus > list.length) {
           console.log("next trak");
           const nextTrack = await Track.findByPk(
             Number(getRandomIntInclusive(1, 10))
           );
-          liste.push(nextTrack);
-          play[query.user] = liste;
-          Ecritfichier(play);
+          list.push(nextTrack);
+          play[query.user] = list;
+          writeFile(play);
           dis.Play = nextTrack;
-          dis.table = liste.length;
-          dis.id = liste.indexOf(dis.Play);
+          dis.table = list.length;
+          dis.id = list.indexOf(dis.Play);
           response.status(200).json(dis);
         }
       }
@@ -81,6 +80,7 @@ const getPlayer = async (nb, query, response) => {
 };
 
 const trackController = {
+
   getAllTracks: async (request, response) => {
     try {
       const tracks = await Track.findAll();
@@ -109,6 +109,7 @@ const trackController = {
       response.status(404).json("Couldn't find tracks");
     }
   },
+  
   getPrevTrack: async (request, response) => {
     try {
       getPlayer(-1, request.query, response);
