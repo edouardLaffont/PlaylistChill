@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { getTracks } from '../../data/musicApi';
-import { getMusics } from '../../slices/musicSlice';
+import { setMusics } from '../../slices/musicSlice';
 import { Music } from '../../types/Music';
 
 import { useAppDispatch, useAppSelector} from '../../store/store'
@@ -12,13 +12,13 @@ export default function Home() {
 
   useEffect(() => {
     getTracks()
-      .then((tracks: Array<Music>) => dispatch(getMusics(tracks)))
+      .then((tracks: Array<Music>) => dispatch(setMusics(tracks)))
   }, [])
 
-  const displayMusic = musics.map((music: Music) => <MusicItem music={music} />)
+  const displayMusic = musics.map((music: Music) => <MusicItem key={music.id} music={music} />)
 
   return (
-    <div className="grid grid-cols-6">
+    <div className="grid grid-cols-6 pt-5">
       {displayMusic}
     </div>
   );

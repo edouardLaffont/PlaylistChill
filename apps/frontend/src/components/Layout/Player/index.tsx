@@ -2,8 +2,6 @@ import React, { useState, useRef, useEffect } from 'react'
 
 import ReactPlayer from "react-player"
 
-import { getTracks } from '../../../data/musicApi'
-
 import{ Music } from '../../../types/Music'
 
 import default_cover from '../../../assets/images/default_cover.svg'
@@ -13,19 +11,24 @@ import next_icon from '../../../assets/icons/next_icon.png'
 import Slider from '@mui/material/Slider';
 
 import { useAppSelector, useAppDispatch} from '../../../store/store'
-import { getMusics } from '../../../slices/musicSlice'
+import { setCurrentMusic, handleNext, handlePrevious } from '../../../slices/musicSlice'
 
 export default function Player() {
     const dispatch = useAppDispatch()
-    const { musics } = useAppSelector((store) => store.music)
-    const [currentMusic, setCurrentMusic] = useState<Music>(musics[0])
+    const { musics, currentMusic } = useAppSelector((store) => store.music)
     const [isPlaying, setIsPlaying] = useState(false)
     const [progress, setProgress]  = useState(0)
     const [timer, setTimer] = useState(0)
     const player = useRef<ReactPlayer | any>(null)
 
+    const lastMusicId = localStorage.getItem('lastMusic')
+
     useEffect(() => {
-        setCurrentMusic(musics[0])
+        if(lastMusicId) {
+            dispatch(setCurrentMusic(musics.find((music: Music) => {return music.id === parseInt(lastMusicId)}))) 
+        } else {
+            dispatch(setCurrentMusic(musics[0]))  
+        }
     }, [musics])
 
     const handlePlaying = () => {
@@ -36,24 +39,6 @@ export default function Player() {
         const time = (value as number)/100
         setProgress(time)
         player.current.seekTo(time)
-    }
-
-    const handlePrevious = () => {
-        const index: number = musics.map((music: Music) => { return music.link; }).indexOf(currentMusic?.link as string) - 1;
-        if(index >= 0) {
-            setCurrentMusic(musics[index])
-        } else {
-            setCurrentMusic(musics[musics.length - 1])
-        }
-    }
-
-    const handleNext = () => {
-        const index: number = musics.map((music: Music) => { return music.link; }).indexOf(currentMusic?.link as string) + 1;
-        if(index <= musics.length - 1) {
-            setCurrentMusic(musics[index])
-        } else {
-            setCurrentMusic(musics[0])
-        }
     }
 
     return (
@@ -68,13 +53,13 @@ export default function Player() {
             <div className='w-5/6 flex flex-col justify-center items-center'>
                 <div className='flex space-x-8'>
                     <button>
-                        <img src={next_icon} alt='previous button' className='h-8 w-8 rotate-180' onClick={handlePrevious}/>
+                        <img src={next_icon} alt='previous button' className='h-8 w-8 rotate-180' onClick={() => dispatch(handlePrevious())}/>
                     </button>
                     <button>
                         <img src={isPlaying? pause_icon : play_icon} onClick={handlePlaying} alt='play/pause button' className='h-10 w-10' />
                     </button>
                     <button>
-                        <img src={next_icon} alt='next button' className='h-8 w-8' onClick={handleNext}/>
+                        <img src={next_icon} alt='next button' className='h-8 w-8' onClick={() => dispatch(handleNext())}/>
                     </button>
                 </div>
                 <div className='w-1/2'>
@@ -85,7 +70,7 @@ export default function Player() {
                 ref={player}
                 url={currentMusic?.link}
                 playing={isPlaying}
-                onEnded={handleNext}
+                onEnded={() => dispatch(handleNext())}
                 onProgress={(event) => {
                     setProgress(event.played)
                     setTimer(event.playedSeconds)
