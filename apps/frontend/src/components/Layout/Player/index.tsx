@@ -19,6 +19,8 @@ export default function Player() {
     const [isPlaying, setIsPlaying] = useState(false)
     const [progress, setProgress]  = useState(0)
     const [timer, setTimer] = useState(0)
+    const [timerAsc, setTimerAsc] = useState(0)
+    const [duration, setDuration] = useState(0)
     const player = useRef<ReactPlayer | any>(null)
 
     const lastMusicId = localStorage.getItem('lastMusic')
@@ -39,6 +41,21 @@ export default function Player() {
         const time = (value as number)/100
         setProgress(time)
         player.current.seekTo(time)
+    }
+    const handleDuration = (duration: number) => {
+        setDuration(duration)
+    }
+
+    const convertSecondesToMinutes = (secondes: number): string => {
+        const minutes: string = Math.floor(secondes / 60).toString()
+        let newSecondes: string = Math.round(secondes % 60).toString()
+        if(parseInt(newSecondes) < 10) {
+            newSecondes = '0' + parseInt(newSecondes)
+        } else if(!parseInt(newSecondes)){
+            newSecondes = '00'
+        }
+
+        return  `${minutes}:${newSecondes}`
     }
 
     return (
@@ -62,8 +79,10 @@ export default function Player() {
                         <img src={next_icon} alt='next button' className='h-8 w-8' onClick={() => dispatch(handleNext())}/>
                     </button>
                 </div>
-                <div className='w-1/2'>
+                <div className='flex w-1/2 items-center'>
+                    <span className='text-white mr-3'>{convertSecondesToMinutes(timer)}</span>
                     <Slider value={progress*100} size='small' onChange={handleProgress} color='secondary'/>
+                    <span className='text-white ml-3'>{convertSecondesToMinutes(timerAsc)}</span>
                 </div>
             </div>
             <ReactPlayer 
@@ -73,8 +92,10 @@ export default function Player() {
                 onEnded={() => dispatch(handleNext())}
                 onProgress={(event) => {
                     setProgress(event.played)
+                    setTimerAsc(duration - event.playedSeconds)
                     setTimer(event.playedSeconds)
                 }}
+                onDuration={handleDuration}
                 style={
                     {
                         visibility: 'hidden',
