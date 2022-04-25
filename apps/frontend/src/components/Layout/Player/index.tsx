@@ -1,27 +1,32 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react'
 
-import ReactPlayer from "react-player";
+import ReactPlayer from "react-player"
 
 import { getTracks } from '../../../data/musicApi'
 
-import cover from '../../../assets/images/La_bohème_album.png'
+import{ Music } from '../../../types/Music'
+
+import default_cover from '../../../assets/images/default_cover.svg'
 import play_icon from '../../../assets/icons/play_icon.png'
 import pause_icon from '../../../assets/icons/pause_icon.png'
 import next_icon from '../../../assets/icons/next_icon.png'
 import Slider from '@mui/material/Slider';
 
+import { useAppSelector, useAppDispatch} from '../../../store/store'
+import { getMusics } from '../../../slices/musicSlice'
+
 export default function Player() {
-    const musics: Array<string> = ['https://www.youtube.com/watch?v=3pupD0h4Mpg','https://www.youtube.com/watch?v=i8wHs-VCcLY']
-    const [url, setUrl] = useState(musics[0])
+    const dispatch = useAppDispatch()
+    const { musics } = useAppSelector((store) => store.music)
+    const [currentMusic, setCurrentMusic] = useState<Music>(musics[0])
     const [isPlaying, setIsPlaying] = useState(false)
     const [progress, setProgress]  = useState(0)
     const [timer, setTimer] = useState(0)
     const player = useRef<ReactPlayer | any>(null)
 
     useEffect(() => {
-        const tracks = getTracks()
-        console.log(tracks)
-    }, [])
+        setCurrentMusic(musics[0])
+    }, [musics])
 
     const handlePlaying = () => {
         setIsPlaying(!isPlaying)
@@ -34,30 +39,30 @@ export default function Player() {
     }
 
     const handlePrevious = () => {
-        const index: number = musics.indexOf(url) - 1
+        const index: number = musics.map((music: Music) => { return music.link; }).indexOf(currentMusic?.link as string) - 1;
         if(index >= 0) {
-            setUrl(musics[index])
+            setCurrentMusic(musics[index])
         } else {
-            setUrl(musics[musics.length - 1])
+            setCurrentMusic(musics[musics.length - 1])
         }
     }
 
     const handleNext = () => {
-        const index: number = musics.indexOf(url) + 1
+        const index: number = musics.map((music: Music) => { return music.link; }).indexOf(currentMusic?.link as string) + 1;
         if(index <= musics.length - 1) {
-            setUrl(musics[index])
+            setCurrentMusic(musics[index])
         } else {
-            setUrl(musics[0])
+            setCurrentMusic(musics[0])
         }
     }
 
     return (
         <div className="flex w-full bg-white-transparant-19 absolute bottom-0 left-0 h-28 items-center">
             <div className='flex items-center w-1/6'>
-                <img src={cover} alt='album cover' className='h-24 w-24 ml-2 mr-5' />
+                <img src={default_cover} alt='album cover' className='h-24 w-24 ml-2 mr-5' />
                 <div className='flex flex-col text-white'>
-                    <span className=' text-xl'>La boème</span>
-                    <span>Charles Aznavour</span>
+                    <span className=' text-xl'>{currentMusic?.title}</span>
+                    <span>{currentMusic?.artist}</span>
                 </div>
             </div>
             <div className='w-5/6 flex flex-col justify-center items-center'>
@@ -78,7 +83,7 @@ export default function Player() {
             </div>
             <ReactPlayer 
                 ref={player}
-                url={url}
+                url={currentMusic?.link}
                 playing={isPlaying}
                 onEnded={handleNext}
                 onProgress={(event) => {
@@ -87,8 +92,9 @@ export default function Player() {
                 }}
                 style={
                     {
-                        visibility: 'hidden',   
-                        position: 'absolute'
+                        visibility: 'hidden',
+                        position: 'absolute',
+                        top: -1000
                     }
                 }
             />

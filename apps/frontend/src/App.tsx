@@ -13,6 +13,9 @@ import SignIn from './pages/SignIn';
 import Home from './pages/Home'
 import Layout from './components/Layout';
 
+import { Provider } from 'react-redux';
+import store from './store/store';
+
 function App() {
   const theme = createTheme({
     palette: {
@@ -28,14 +31,16 @@ function App() {
   return (
     <div className="h-full w-full bg-gradient-to-b from-blue to-blue-dark font-sans">
       <ThemeProvider theme={theme}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/signin" element={<SignIn />}/>
-            <Route path='/' element={<Layout />}>
-              <Route index element={<Home />}/>
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <Provider store={store}>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/signin" element={<SignIn />}/>
+              <Route path='/' element={<Layout />}>
+                <Route index element={<Home />}/>
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </Provider>
       </ThemeProvider>
     </div>
   );
