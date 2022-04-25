@@ -2,8 +2,6 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { Music } from '../types/Music'
 
-const lastMusicId = localStorage.getItem('lastMusic');
-
 export const musicSlice = createSlice({
     name: 'music',
     initialState: {

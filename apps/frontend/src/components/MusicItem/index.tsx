@@ -18,7 +18,7 @@ export default function MusicItem({ music }: props) {
 
   return (
     <div className='flex flex-col items-center cursor-pointer' onClick={handleClick}>
-        <img src={default_cover} alt='cover' className='w-40 h-40 rounded-xl'/>
+        <img src={default_cover} alt='cover' className='w-50 h-50 rounded-xl'/>
         <span className='text-white'>{music.title}</span>
         <span className='text-white-transparant-26 text-sm'>{music.artist}</span>
     </div>

@@ -18,7 +18,7 @@ export default function Home() {
   const displayMusic = musics.map((music: Music) => <MusicItem key={music.id} music={music} />)
 
   return (
-    <div className="grid grid-cols-6 pt-5">
+    <div className="grid grid-cols-5 gap-y-5 pt-5">
       {displayMusic}
     </div>
   );
