@@ -13,7 +13,7 @@ router.get("/next", trackController.getNextTrack);
 router.get("/prev", trackController.getPrevTrack);
 
 // Person
-router.post("/person", personController.createPerson);
+router.post("/person", personController.createPersonProfilFinalTest);
 router.get("/person/:id", personController.getPerson);
 
 // Playlist 
