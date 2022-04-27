@@ -13,7 +13,7 @@ router.get("/next", trackController.getNextTrack);
 router.get("/prev", trackController.getPrevTrack);
 
 // Person
-router.post("/person", personController.createPersonProfilFinalTest);
+router.post("/person", personController.createPerson);
 router.get("/person/:id", personController.getPerson);
 
 // Playlist 
@@ -24,8 +24,5 @@ router.get("/playlist/:id", playlistController.getPlaylist);
 
 // Like
 router.post("/like/person/:id/add", likeController.addLike);
-router.get("/like/person/:id_person", likeController.getTrackLikeByUser);
-
-
 
 module.exports = router;

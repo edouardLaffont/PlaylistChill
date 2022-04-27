@@ -18,14 +18,6 @@ addLike: async(request, response) => {
     }
 },
 
-getTrackLikeByUser: async(request, response) => {
-    try {
-
-    } catch(err) {
-
-    }
-}
-
 }
 
 module.exports = likeController;

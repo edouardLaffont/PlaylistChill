@@ -2,6 +2,7 @@ const Track = require('./track');
 const Person = require('./person');
 const Playlist = require('./playlist');
 const Profil = require('./profil');
+const Kind = require('./kind');
 
 Track.belongsToMany(Person, {
     foreignKey: 'id_track',
@@ -29,6 +30,16 @@ Person.hasOne(Profil, {
 Profil.belongsTo(Person, {
     foreignKey: 'id_person',
     as: 'person'
+});
+
+Track.hasOne(Kind, {
+    foreignKey: 'id_track',
+    as: 'kind'
+});
+
+Kind.belongsTo(Track, {
+    foreignKey: 'id_track',
+    as: 'track'
 });
 
 Person.hasMany(Playlist, {
@@ -63,5 +74,6 @@ module.exports = {
     Track,
     Playlist,
     Person,
-    Profil
+    Profil,
+    Kind
 };
