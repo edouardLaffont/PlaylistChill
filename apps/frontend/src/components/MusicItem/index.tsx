@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { Music } from '../../types/Music';
 
 import default_cover from '../../assets/images/default_cover.svg'
