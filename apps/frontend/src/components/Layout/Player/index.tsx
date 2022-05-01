@@ -62,7 +62,7 @@ export default function Player() {
           .then((user: User) => console.log(user.tracks.filter((track: Music)=>{
             return track.id === currentMusic?.id
             })))
-      }, [])
+        }, [])
 
     const convertSecondesToMinutes = (secondes: number): string => {
         const minutes: string = Math.floor(secondes / 60).toString()
