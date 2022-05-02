@@ -20,6 +20,19 @@ const personController = {
         }
     },
 
+    connectPerson: async (request, response) => {
+        try {
+            const personName = await Person.findOne({ where: { username: request.body.username } });
+            if (personName) {
+                return response.status(200).json(personName);
+            };
+          
+        } catch(err) {
+            console.log(err);
+            response.status(500).json("Une erreur est survenue lors de l'authentification")
+        };
+    },
+
     getPerson: async (request, response) => {
         try {
             const person = await Person.findByPk(Number(request.params.id), {
