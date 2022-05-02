@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 
 import ReactPlayer from "react-player"
 
@@ -84,7 +84,7 @@ export default function Player() {
                     <span className=' text-xl'>{currentMusic?.title}</span>
                     <span>{currentMusic?.artist}</span>
                     <button>
-                        <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-8 w-8' onClick={() => {handleLike(3, currentMusic?.id)}} />
+                        <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-8 w-8' onClick={() => {handleLike(1, currentMusic?.id)}} />
                     </button>
                 </div>
             </div>

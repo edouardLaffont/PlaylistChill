@@ -9,6 +9,16 @@ export async function getTracks() {
     }
 }
 
+export async function getNewTrack() {
+    try {
+        const response = await API.get('/v1/next')
+        console.log(response.data)
+        return Promise.resolve(response.data)
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+
 export async function addLike(idUser: number, idTrack: number) {
     try {
         const response = await API.post(`/v1/like/person/${idUser}/add`, {
