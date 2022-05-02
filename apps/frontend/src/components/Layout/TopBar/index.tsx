@@ -4,7 +4,7 @@ import SearchBar from '../../SearchBar';
 import profile_icon from '../../../assets/icons/profile_icon.png'
 
 import { setMusics } from '../../../slices/musicSlice'
-import { useAppDispatch, useAppSelector } from '../../../store/store';
+import { useAppDispatch } from '../../../store/store';
 import { Music } from '../../../types/Music';
 import { getTracks } from '../../../data/musicApi';
 

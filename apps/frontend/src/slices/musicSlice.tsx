@@ -28,7 +28,7 @@ export const musicSlice = createSlice({
         handleNext: (state) => {
             getNewTrack().then((data) => {
                 console.log(data);
-                dispatch(state.currentMusic = data[0])
+                state.currentMusic = data[0]
             })
         },
         handlePrevious: (state) => {
@@ -44,7 +44,3 @@ export const musicSlice = createSlice({
 
 export const { setMusics, setCurrentMusic, handleNext, handlePrevious } = musicSlice.actions;
 export default musicSlice.reducer;
-
-function dispatch(arg0: any) {
-    throw new Error("Function not implemented.");
-}

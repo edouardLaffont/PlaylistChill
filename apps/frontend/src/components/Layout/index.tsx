@@ -11,7 +11,7 @@ export default function Layout() {
       <SideBar />
       <div className='flex flex-col w-full'>
         <TopBar />
-        <div className="h-full overflow-y-scroll">
+        <div className=" h-[77%] overflow-y-scroll">
           <Outlet />
         </div>
       </div>
