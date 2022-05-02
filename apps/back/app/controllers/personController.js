@@ -1,4 +1,4 @@
-const { Person, Profil } = require('../models');
+const { Person } = require('../models');
 
 const personController = {
 
@@ -10,9 +10,7 @@ const personController = {
                 return response.status(409).json("Nom utilisateur déjà enregistré");
             };
             const createdPerson = await Person.create(person)
-            await Profil.create({ id_person: createdPerson.id })
             Person.findByPk(Number(createdPerson.id), {
-                include: ['profil']
             }).then((person) => {
                 response.status(201).json(person);
             })
@@ -25,7 +23,7 @@ const personController = {
     getPerson: async (request, response) => {
         try {
             const person = await Person.findByPk(Number(request.params.id), {
-                include: ['playlists', 'tracks', 'profil']
+                include: ['playlists', 'tracks']
             });
             response.status(200).json(person);
         } catch (err) {

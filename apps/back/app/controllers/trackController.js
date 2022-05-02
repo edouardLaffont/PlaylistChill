@@ -1,5 +1,6 @@
 const Track = require("../models/track");
 const fs = require("fs");
+const { sequelize } = require("../models/track");
 
 const readFile = () => {
   let readFile = fs.readFileSync("./app/PlayerUser.json");
@@ -103,13 +104,22 @@ const trackController = {
 
   getNextTrack: async (request, response) => {
     try {
-      getPlayer(1, request.query, response);
+      const [results, metadata] = await sequelize.query('SELECT * from "track" where id_kind IN ( ' +
+        'SELECT "track".id_kind ' +
+        'FROM "like" ' +
+        'INNER JOIN "track" ON "track".id = id_track ' +
+        ' WHERE id_person = 1 ' +
+        ' GROUP BY id_kind' +
+        ' ORDER BY count(id_kind) DESC ' +
+        'LIMIT 3' +
+        ' ) ORDER BY random() LIMIT 1')
+        response.status(200).json(results)
     } catch (error) {
       console.trace(error);
       response.status(404).json("Couldn't find tracks");
     }
   },
-  
+
   getPrevTrack: async (request, response) => {
     try {
       getPlayer(-1, request.query, response);
