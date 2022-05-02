@@ -14,6 +14,7 @@ router.get("/prev", trackController.getPrevTrack);
 
 // Person
 router.post("/person", personController.createPerson);
+router.post("/connect", personController.connectPerson);
 router.get("/person/:id", personController.getPerson);
 
 // Playlist 
