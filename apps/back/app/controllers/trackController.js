@@ -102,7 +102,7 @@ const trackController = {
     }
   },
 
-  getNextTrack: async (request, response) => {
+  getSuggestions: async (request, response) => {
     try {
       const [results, metadata] = await sequelize.query('SELECT * from "track" where id_kind IN ( ' +
         'SELECT "track".id_kind ' +
@@ -112,7 +112,21 @@ const trackController = {
         ' GROUP BY id_kind' +
         ' ORDER BY count(id_kind) DESC ' +
         'LIMIT 3' +
-        ' ) ORDER BY random() LIMIT 1')
+        ' ) ORDER BY random() LIMIT 8')
+        response.status(200).json(results)
+    } catch (error) {
+      console.trace(error);
+      response.status(404).json("Couldn't find tracks");
+    }
+  },
+
+  getTracksByKind: async (request, response) => {
+    try {
+      const [results, metadata] = await sequelize.query(`
+        SELECT * from "track"
+        INNER JOIN "kind" ON track.id_kind = kind.id
+        WHERE kind.label = '${request.params.label}'
+      `)
         response.status(200).json(results)
     } catch (error) {
       console.trace(error);

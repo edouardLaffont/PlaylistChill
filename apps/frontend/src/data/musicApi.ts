@@ -9,6 +9,15 @@ export async function getTracks() {
     }
 }
 
+export async function getTracksByKind(kind: string) {
+    try {
+        const response = await API.get(`/v1/tracks/kind/${kind}`)
+        return Promise.resolve(response.data)
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+
 export async function getNewTrack() {
     try {
         const response = await API.get('/v1/next')

@@ -1,25 +1,25 @@
-import React, { useEffect } from 'react';
-import { getTracks } from '../../data/musicApi';
-import { setMusics } from '../../slices/musicSlice';
+import React from 'react';
 import { Music } from '../../types/Music';
 
-import { useAppDispatch, useAppSelector} from '../../store/store'
-import MusicItem from '../../components/MusicItem';
+import { useAppDispatch, useAppSelector } from '../../store/store'
+
+import MusicSection from '../../components/MusicSection';
 
 export default function Home() {
-  const dispatch = useAppDispatch()
-  const { musics } = useAppSelector((store) => store.music)
+  const kindList: Array<string> = ['rap', 'pop', 'classical',
+    'electronicdancemusic', 'country', 'indierock',
+    'hiphop', 'jazz', 'metal', 'oldies', 'rhythmblues',
+    'rock', 'techno', 'kpop']
 
-  useEffect(() => {
-    getTracks()
-      .then((tracks: Array<Music>) => dispatch(setMusics(tracks)))
-  }, [])
-
-  const displayMusic = musics.map((music: Music) => <MusicItem key={music.id} music={music} />)
+  const displaySection = kindList.map((kind: string) => { return <MusicSection key={kind} kind={kind} /> })
 
   return (
-    <div className="grid grid-cols-5 gap-y-5 pt-5">
-      {displayMusic}
+    <div className="">
+      {
+        localStorage.getItem('recentlyPlayed') ?
+          <MusicSection kind={'recently played'} /> : <></>
+      }
+      {displaySection}
     </div>
   );
 }

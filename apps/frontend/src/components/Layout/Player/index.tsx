@@ -9,7 +9,7 @@ import play_icon from '../../../assets/icons/play_icon.png'
 import pause_icon from '../../../assets/icons/pause_icon.png'
 import next_icon from '../../../assets/icons/next_icon.png'
 import heart_icon from '../../../assets/icons/heart_icon.png'
-import heart_filled_icon from '../../../assets/icons/heart_filled_icon.png'
+import heart_filled_icon from '../../../assets/icons/heart_filled_icon.svg'
 import Slider from '@mui/material/Slider';
 
 import { useAppSelector, useAppDispatch } from '../../../store/store'
@@ -28,16 +28,6 @@ export default function Player() {
     const [likedMusic, setLikedMusic] = useState(false)
     const player = useRef<ReactPlayer | any>(null)
 
-    const lastMusicId = localStorage.getItem('lastMusic')
-
-    useEffect(() => {
-        if (lastMusicId) {
-            dispatch(setCurrentMusic(musics.find((music: Music) => { return music.id === parseInt(lastMusicId) })))
-        } else {
-            dispatch(setCurrentMusic(musics[0]))
-        }
-    }, [musics])
-
     const handlePlaying = () => {
         setIsPlaying(!isPlaying)
     }
@@ -54,15 +44,16 @@ export default function Player() {
     // Ajoute un like à la currentMusic
     const handleLike = (idUser: number, idTrack: number) => {
         addLike(idUser, idTrack)
+        setLikedMusic(!likedMusic)
     }
 
     // Pour comparer les likes de l'utilisateur et la cuurentMusic.id ?
     useEffect(() => {
         getUser(3)
-          .then((user: User) => console.log(user.tracks.filter((track: Music)=>{
-            return track.id === currentMusic?.id
+            .then((user: User) => console.log(user.tracks.filter((track: Music) => {
+                return track.id === currentMusic?.id
             })))
-        }, [])
+    }, [])
 
     const convertSecondesToMinutes = (secondes: number): string => {
         const minutes: string = Math.floor(secondes / 60).toString()
@@ -78,34 +69,27 @@ export default function Player() {
 
     return (
         <div className="flex w-full bg-white-transparant-19 absolute bottom-0 left-0 h-28 items-center">
-            <div className='flex items-center w-1/6'>
+            <div className='flex items-center w-2/6'>
                 <img src={default_cover} alt='album cover' className='h-24 w-24 ml-2 mr-5' />
                 <div className='flex flex-col text-white'>
                     <span className=' text-xl'>{currentMusic?.title}</span>
                     <span>{currentMusic?.artist}</span>
-                    <button>
-                        <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-8 w-8' onClick={() => {handleLike(1, currentMusic?.id)}} />
-                    </button>
                 </div>
+                <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-5 w-5 ml-3' onClick={() => { handleLike(1, currentMusic?.id) }} />
             </div>
-            <div className='w-5/6 flex flex-col justify-center items-center'>
+            <div className='w-4/6 flex flex-col justify-center items-center'>
                 <div className='flex space-x-8'>
-                    <button>
-                        <img src={next_icon} alt='previous button' className='h-8 w-8 rotate-180' onClick={() => dispatch(handlePrevious())} />
-                    </button>
-                    <button>
-                        <img src={isPlaying ? pause_icon : play_icon} onClick={handlePlaying} alt='play/pause button' className='h-10 w-10' />
-                    </button>
-                    <button>
-                        <img src={next_icon} alt='next button' className='h-8 w-8' onClick={() => dispatch(handleNext())} />
-                    </button>
+                    <img src={next_icon} alt='previous button' className='h-8 w-8 rotate-180 cursor-pointer' onClick={() => dispatch(handlePrevious())} />
+                    <img src={isPlaying ? pause_icon : play_icon} onClick={handlePlaying} alt='play/pause button' className='h-10 w-10 cursor-pointer' />
+                    <img src={next_icon} alt='next button' className='h-8 w-8 cursor-pointer' onClick={() => dispatch(handleNext())} />
                 </div>
-                <div className='flex w-1/2 items-center'>
+                <div className='flex w-5/6 items-center'>
                     <span className='text-white mr-3'>{convertSecondesToMinutes(timer)}</span>
                     <Slider value={progress * 100} size='small' onChange={handleProgress} color='secondary' />
                     <span className='text-white ml-3'>{convertSecondesToMinutes(timerAsc)}</span>
                 </div>
             </div>
+            <div className='w-2/6' />
             <ReactPlayer
                 ref={player}
                 url={currentMusic?.link}
