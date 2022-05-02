@@ -14,4 +14,4 @@ PGPORT=5000
 
 PG_URL=postgres://postgres:mot_de_passe_postgres@localhost/nom_de_la_base_de_donnée
 
-L'application se lance avec la commande yarn start, éxécutée dans les dossiers frontend et back de l'application.
+L'application se lance avec la commande yarn start(nodemon est requis), éxécutée dans les dossiers frontend et back de l'application.
