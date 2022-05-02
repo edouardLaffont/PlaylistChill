@@ -12,6 +12,9 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import SignIn from './pages/SignIn';
 import Home from './pages/Home'
 import Layout from './components/Layout';
+import Playlist from './pages/Playlists';
+import Favorites from './pages/Favorites';
+import Library from './pages/Library';
 
 import { Provider } from 'react-redux';
 import store from './store/store';
@@ -37,6 +40,9 @@ function App() {
               <Route path="/signin" element={<SignIn />}/>
               <Route path='/' element={<Layout />}>
                 <Route index element={<Home />}/>
+                <Route path='playlist' element={<Playlist />}/>
+                <Route path='library' element={<Library />}/>
+                <Route path='favorites' element={<Favorites />}/>
               </Route>
             </Routes>
           </BrowserRouter>
