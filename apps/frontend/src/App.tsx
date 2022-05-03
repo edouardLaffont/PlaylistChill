@@ -19,7 +19,7 @@ import Suggestions from './pages/Suggestions';
 
 import { useAppDispatch, useAppSelector } from './store/store';
 import { getTracks } from './data/musicApi';
-import { setMusics } from './slices/musicSlice';
+import { handleIsPlaying, setMusics } from './slices/musicSlice';
 
 import { Music } from './types/Music';
 
@@ -28,6 +28,7 @@ function App() {
   const dispatch = useAppDispatch()
   const navigate = useNavigate();
 
+  const { isPlaying } = useAppSelector(store => store.music)
   const { isLoggedIn } = useAppSelector(store => store.auth)
 
   const theme = createTheme({
@@ -51,6 +52,14 @@ function App() {
       navigate('/signin')
     }
   }, [isLoggedIn])
+
+  document.body.onkeyup = function(e) {
+    if (e.key == " " ||
+        e.code == "Space"     
+    ) {
+      dispatch(handleIsPlaying(!isPlaying))
+    }
+  }
 
   return (
     <div className="h-full w-full bg-gradient-to-b from-blue to-blue-dark font-sans">
