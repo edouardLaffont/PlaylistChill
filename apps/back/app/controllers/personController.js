@@ -23,9 +23,10 @@ const personController = {
     connectPerson: async (request, response) => {
         try {
             const personName = await Person.findOne({ where: { username: request.body.username } });
-            if (personName) {
-                return response.status(200).json(personName);
-            };
+            const person = await Person.findByPk(Number(personName.id), {
+                include: ['playlists', 'tracks']
+            });
+            response.status(200).json(person);
           
         } catch(err) {
             console.log(err);
