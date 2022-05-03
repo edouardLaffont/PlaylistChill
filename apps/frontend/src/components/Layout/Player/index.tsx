@@ -16,6 +16,7 @@ import { useAppSelector, useAppDispatch } from '../../../store/store'
 import { setCurrentMusic, handleNext, handlePrevious } from '../../../slices/musicSlice'
 import { addLike, getUser } from '../../../data/musicApi'
 import { User } from '../../../types/User'
+import { setUserTracks } from '../../../slices/authSlice'
 
 export default function Player() {
     const dispatch = useAppDispatch()
@@ -28,6 +29,7 @@ export default function Player() {
     const [likedMusic, setLikedMusic] = useState(false)
    /*  const [likedTrack, setLikedTrack] = useState("") */
     const player = useRef<ReactPlayer | any>(null)
+    const { user } = useAppSelector((store) => store.auth) 
 
     const handlePlaying = () => {
         setIsPlaying(!isPlaying)
@@ -47,11 +49,13 @@ export default function Player() {
         addLike(idUser, idTrack)
         setLikedMusic(!likedMusic)
         console.log(currentMusic?.id)
+        getUser(user.id).then(response => dispatch(setUserTracks(response.tracks))) 
+        
     }
 
     // Pour comparer les likes de l'utilisateur et la cuurentMusic.id ?
     useEffect(() => {
-        getUser(3)
+        getUser(user.id)
             .then((user: User) => user.tracks.filter((track: Music) => {
                 setLikedMusic(track.id === currentMusic?.id)
             }))
@@ -77,7 +81,7 @@ export default function Player() {
                     <span className=' text-xl'>{currentMusic?.title}</span>
                     <span>{currentMusic?.artist}</span>
                 </div>
-                <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-5 w-5 ml-3' onClick={() => handleLike(3, currentMusic?.id)} />
+                <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-5 w-5 ml-3' onClick={() => handleLike(user.id, currentMusic?.id)} />
             </div>
             <div className='w-4/6 flex flex-col justify-center items-center'>
                 <div className='flex space-x-8'>

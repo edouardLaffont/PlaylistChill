@@ -24,9 +24,12 @@ export const authSlice = createSlice({
             state.isLoggedIn = false
             state.user = { id: -1, username: '', tracks: [] }
             localStorage.clear()
+        },
+        setUserTracks: (state, action) => {
+            state.user.tracks = action.payload
         }
     }
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, setUserTracks } = authSlice.actions;
 export default authSlice.reducer;
