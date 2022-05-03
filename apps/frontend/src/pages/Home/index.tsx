@@ -1,7 +1,4 @@
-import React from 'react';
-import { Music } from '../../types/Music';
-
-import { useAppDispatch, useAppSelector } from '../../store/store'
+import React, { useEffect } from 'react';
 
 import MusicSection from '../../components/MusicSection';
 

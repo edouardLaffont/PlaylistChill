@@ -13,8 +13,7 @@ export default function SideBar() {
       <h1 className="font-logo text-4xl px-14 pt-5 text-white">MUSIC</h1>
       <ul className='space-y-8 ml-5 mt-14'>
         <SideBarButton icon={home_icon} text='Home' to='/' />
-        <SideBarButton icon={playlist_icon} text='Playlist' to='/playlist' />
-        <SideBarButton icon={library_icon} text='Library' to='/library' />
+        <SideBarButton icon={library_icon} text='Suggestions' to='/suggestions' />
         <SideBarButton icon={heart_icon} text='Favorites' to='/favorites' />
       </ul>
     </div>

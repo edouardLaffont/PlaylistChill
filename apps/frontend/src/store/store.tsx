@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import music from '../slices/musicSlice'
+import auth from '../slices/authSlice'
 import { useSelector, TypedUseSelectorHook, useDispatch } from 'react-redux'
 
 const store =  configureStore({
     reducer: {
         music: music,
+        auth: auth
     },
 })
 
