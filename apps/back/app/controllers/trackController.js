@@ -123,7 +123,7 @@ const trackController = {
   getTracksByKind: async (request, response) => {
     try {
       const [results, metadata] = await sequelize.query(`
-        SELECT * from "track"
+        SELECT track.id, title, artist, link from "track"
         INNER JOIN "kind" ON track.id_kind = kind.id
         WHERE kind.label = '${request.params.label}'
       `)

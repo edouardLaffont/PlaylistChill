@@ -26,6 +26,7 @@ export default function Player() {
     const [timerAsc, setTimerAsc] = useState(0)
     const [duration, setDuration] = useState(0)
     const [likedMusic, setLikedMusic] = useState(false)
+   /*  const [likedTrack, setLikedTrack] = useState("") */
     const player = useRef<ReactPlayer | any>(null)
 
     const handlePlaying = () => {
@@ -45,15 +46,16 @@ export default function Player() {
     const handleLike = (idUser: number, idTrack: number) => {
         addLike(idUser, idTrack)
         setLikedMusic(!likedMusic)
+        console.log(currentMusic?.id)
     }
 
     // Pour comparer les likes de l'utilisateur et la cuurentMusic.id ?
     useEffect(() => {
         getUser(3)
-            .then((user: User) => console.log(user.tracks.filter((track: Music) => {
-                return track.id === currentMusic?.id
-            })))
-    }, [])
+            .then((user: User) => user.tracks.filter((track: Music) => {
+                setLikedMusic(track.id === currentMusic?.id)
+            }))
+    }, [currentMusic])
 
     const convertSecondesToMinutes = (secondes: number): string => {
         const minutes: string = Math.floor(secondes / 60).toString()
@@ -63,9 +65,9 @@ export default function Player() {
         } else if (!parseInt(newSecondes)) {
             newSecondes = '00'
         }
-
         return `${minutes}:${newSecondes}`
     }
+
 
     return (
         <div className="flex w-full bg-white-transparant-19 absolute bottom-0 left-0 h-28 items-center">
@@ -75,7 +77,7 @@ export default function Player() {
                     <span className=' text-xl'>{currentMusic?.title}</span>
                     <span>{currentMusic?.artist}</span>
                 </div>
-                <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-5 w-5 ml-3' onClick={() => { handleLike(1, currentMusic?.id) }} />
+                <img src={likedMusic ? heart_filled_icon : heart_icon} alt='like button' className='h-5 w-5 ml-3' onClick={() => handleLike(3, currentMusic?.id)} />
             </div>
             <div className='w-4/6 flex flex-col justify-center items-center'>
                 <div className='flex space-x-8'>
