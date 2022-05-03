@@ -56,9 +56,11 @@ export default function Player() {
     // Pour comparer les likes de l'utilisateur et la cuurentMusic.id ?
     useEffect(() => {
         getUser(user.id)
-            .then((user: User) => user.tracks.filter((track: Music) => {
-                setLikedMusic(track.id === currentMusic?.id)
-            }))
+            .then(response => {
+                setLikedMusic(response.tracks.filter((track: Music) => {
+                    return track.id === currentMusic?.id
+                }).length)
+            })
     }, [currentMusic])
 
     const convertSecondesToMinutes = (secondes: number): string => {
