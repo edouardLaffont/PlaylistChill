@@ -7,7 +7,7 @@ type props = {
 
 export default function MusicList({ musics }: props) {
 
-    const displayMusics = musics.map((music: Music) => { return <MusicListItem music={music} currentMusicList={musics}/> })
+    const displayMusics = musics.map((music: Music) => { return <MusicListItem key={music.id} music={music} currentMusicList={musics}/> })
 
     return (
         <table className="w-full text-white">

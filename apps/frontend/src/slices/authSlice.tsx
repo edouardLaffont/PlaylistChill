@@ -20,7 +20,7 @@ export const authSlice = createSlice({
             state.user = action.payload
             localStorage.setItem('userContext', JSON.stringify({ isLoggedIn: true, user: action.payload }))
         },
-        logout: (state, action) => {
+        logout: (state) => {
             state.isLoggedIn = false
             state.user = { id: -1, username: '', tracks: [] }
             localStorage.clear()

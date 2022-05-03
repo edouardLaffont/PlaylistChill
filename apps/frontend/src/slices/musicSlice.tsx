@@ -45,7 +45,7 @@ export const musicSlice = createSlice({
                 recentlyPlayed.pop()
             }
             if(!recentlyPlayed.filter(
-                (music: Music) => { return music.link === action.payload.link }).length) 
+                (music: Music) => { return music.id === action.payload.id }).length) 
             {
                 recentlyPlayed.unshift(action.payload)
                 localStorage.setItem('recentlyPlayed', JSON.stringify(recentlyPlayed))
@@ -53,7 +53,7 @@ export const musicSlice = createSlice({
 
         },
         handleNext: (state) => {
-            const index: number = state.currentMusicList.map((music: Music) => { return music.link }).indexOf(state.currentMusic?.link as string) + 1;
+            const index: number = state.currentMusicList.map((music: Music) => { return music.id }).indexOf(state.currentMusic?.id as number) + 1;
             if (index <= state.currentMusicList.length - 1) {
                 state.currentMusic = state.currentMusicList[index]
             } else {
@@ -61,7 +61,7 @@ export const musicSlice = createSlice({
             }
         },
         handlePrevious: (state) => {
-            const index: number = state.currentMusicList.map((music: Music) => { return music.link }).indexOf(state.currentMusic?.link as string) - 1;
+            const index: number = state.currentMusicList.map((music: Music) => { return music.id }).indexOf(state.currentMusic?.id as number) - 1;
             console.log(index)
             if (index >= 0) {
                 state.currentMusic = state.currentMusicList[index]
