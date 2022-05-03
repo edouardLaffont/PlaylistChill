@@ -108,7 +108,7 @@ const trackController = {
         'SELECT "track".id_kind ' +
         'FROM "like" ' +
         'INNER JOIN "track" ON "track".id = id_track ' +
-        ' WHERE id_person = 1 ' +
+        ` WHERE id_person = ${request.params.id_person}`  +
         ' GROUP BY id_kind' +
         ' ORDER BY count(id_kind) DESC ' +
         'LIMIT 3' +

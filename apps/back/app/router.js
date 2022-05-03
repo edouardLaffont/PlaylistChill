@@ -10,7 +10,7 @@ const router = Router();
 router.get("/tracks", trackController.getAllTracks);
 router.get("/tracks/:id", trackController.getOneTrack);
 router.get("/tracks/kind/:label", trackController.getTracksByKind);
-router.get("/suggestions", trackController.getSuggestions);
+router.get("/suggestions/:id_person", trackController.getSuggestions);
 router.get("/prev", trackController.getPrevTrack);
 
 // Person

@@ -39,6 +39,15 @@ export async function addLike(idUser: number, idTrack: number) {
     }
 }
 
+export async function getSuggestions(idUser: number) {
+    try {
+        const response = await API.get(`/v1/suggestions/${idUser}`)
+        return Promise.resolve(response.data)
+    } catch (err) {
+        return Promise.reject(err)
+    }
+}
+
 export async function getUser(idUser: number) {
     try {
         const response = await API.get(`/v1/person/${idUser}`)
