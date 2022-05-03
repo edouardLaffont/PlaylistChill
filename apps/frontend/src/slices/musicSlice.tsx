@@ -11,6 +11,7 @@ export const musicSlice = createSlice({
         musics: Array<Music>(),
         currentMusicList: lastMusicList ? JSON.parse(lastMusicList) : Array<Music>(),
         search: '',
+        isPlaying: false,
         currentMusic: lastMusic ?
             JSON.parse(lastMusic)
             :
@@ -70,9 +71,12 @@ export const musicSlice = createSlice({
         },
         setSearch: (state, action) => {
             state.search = action.payload
+        },
+        handleIsPlaying: (state, action) => {
+            state.isPlaying = action.payload
         }
     },
 });
 
-export const { setMusics, setCurrentMusic, setCurrentMusicList, handleNext, handlePrevious, setSearch } = musicSlice.actions;
+export const { setMusics, setCurrentMusic, setCurrentMusicList, handleNext, handlePrevious, setSearch, handleIsPlaying } = musicSlice.actions;
 export default musicSlice.reducer;

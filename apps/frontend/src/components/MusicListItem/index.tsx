@@ -2,7 +2,7 @@ import { Music } from "../../types/Music"
 import default_cover from "../../assets/images/default_cover.svg"
 
 import { useAppDispatch } from "../../store/store"
-import { setCurrentMusic, setCurrentMusicList } from "../../slices/musicSlice"
+import { handleIsPlaying, setCurrentMusic, setCurrentMusicList } from "../../slices/musicSlice"
 
 type props = {
   music: Music
@@ -15,6 +15,7 @@ export default function MusicListItem({ music, currentMusicList }: props) {
   const handleClick = () => {
     dispatch(setCurrentMusic(music))
     dispatch(setCurrentMusicList(currentMusicList))
+    dispatch(handleIsPlaying(true))
   }
 
   return (

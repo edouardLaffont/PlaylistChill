@@ -13,27 +13,21 @@ import heart_filled_icon from '../../../assets/icons/heart_filled_icon.svg'
 import Slider from '@mui/material/Slider';
 
 import { useAppSelector, useAppDispatch } from '../../../store/store'
-import { setCurrentMusic, handleNext, handlePrevious } from '../../../slices/musicSlice'
+import { handleNext, handlePrevious, handleIsPlaying } from '../../../slices/musicSlice'
 import { addLike, getUser } from '../../../data/musicApi'
-import { User } from '../../../types/User'
 import { setUserTracks } from '../../../slices/authSlice'
 
 export default function Player() {
     const dispatch = useAppDispatch()
-    const { musics, currentMusic } = useAppSelector((store) => store.music)
-    const [isPlaying, setIsPlaying] = useState(false)
+    const { isPlaying, currentMusic } = useAppSelector((store) => store.music)
     const [progress, setProgress] = useState(0)
     const [timer, setTimer] = useState(0)
     const [timerAsc, setTimerAsc] = useState(0)
     const [duration, setDuration] = useState(0)
     const [likedMusic, setLikedMusic] = useState(false)
-   /*  const [likedTrack, setLikedTrack] = useState("") */
+    /*  const [likedTrack, setLikedTrack] = useState("") */
     const player = useRef<ReactPlayer | any>(null)
-    const { user } = useAppSelector((store) => store.auth) 
-
-    const handlePlaying = () => {
-        setIsPlaying(!isPlaying)
-    }
+    const { user } = useAppSelector((store) => store.auth)
 
     const handleProgress = (event: Event, value: number | number[]) => {
         const time = (value as number) / 100
@@ -49,8 +43,7 @@ export default function Player() {
         addLike(idUser, idTrack)
         setLikedMusic(!likedMusic)
         console.log(currentMusic?.id)
-        getUser(user.id).then(response => dispatch(setUserTracks(response.tracks))) 
-        
+        getUser(user.id).then(response => dispatch(setUserTracks(response.tracks)))
     }
 
     // Pour comparer les likes de l'utilisateur et la cuurentMusic.id ?
@@ -88,7 +81,7 @@ export default function Player() {
             <div className='w-4/6 flex flex-col justify-center items-center'>
                 <div className='flex space-x-8'>
                     <img src={next_icon} alt='previous button' className='h-8 w-8 rotate-180 cursor-pointer' onClick={() => dispatch(handlePrevious())} />
-                    <img src={isPlaying ? pause_icon : play_icon} onClick={handlePlaying} alt='play/pause button' className='h-10 w-10 cursor-pointer' />
+                    <img src={isPlaying ? pause_icon : play_icon} onClick={() => dispatch(handleIsPlaying(!isPlaying))} alt='play/pause button' className='h-10 w-10 cursor-pointer' />
                     <img src={next_icon} alt='next button' className='h-8 w-8 cursor-pointer' onClick={() => dispatch(handleNext())} />
                 </div>
                 <div className='flex w-5/6 items-center'>
