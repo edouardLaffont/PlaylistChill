@@ -6,7 +6,7 @@ Instalation :
 
 Dans le dossier "frontend" ainsi que dans le dossier "back" utiliser yarn install.
 
-Dans le dossier "back" se trouve la structure de base de données dans "script". Les 3 fichiers sont à exécuter dans PGAdmin (postgresql).
+Dans le dossier "back" se trouve la structure de base de données dans "script". Les 4 fichiers sont à exécuter dans PGAdmin (postgresql). Un utilisateur est présent pour les tests. Nom d'utilisateur : user
 
 Enfin le .env est à crée dans le dossier back sous la forme : 
 
