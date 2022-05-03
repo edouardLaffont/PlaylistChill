@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import SearchBar from '../../SearchBar';
 import profile_icon from '../../../assets/icons/profile_icon.png'
 
-import { setMusics } from '../../../slices/musicSlice'
+import { setSearch } from '../../../slices/musicSlice'
 import { useAppDispatch } from '../../../store/store';
 import { Music } from '../../../types/Music';
 import { getTracks } from '../../../data/musicApi';
@@ -19,11 +19,7 @@ export default function TopBar() {
 
     const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const search = event.target.value;
-        dispatch(
-            setMusics(initialMusics?.filter((music: Music) => {
-                return music.artist.includes(search) || music.title.includes(search)
-            }))
-        )
+        dispatch(setSearch(search))
     }
 
     return (

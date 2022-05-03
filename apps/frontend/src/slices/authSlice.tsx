@@ -4,7 +4,7 @@ import { Music } from "../types/Music";
 export const authSlice = createSlice({
     name: 'auth',
     initialState: {
-        isLoggedIn: true,
+        isLoggedIn: false,
         user: {
             id: -1,
             username: '',
